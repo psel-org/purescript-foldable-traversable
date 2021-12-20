@@ -5,4 +5,5 @@
 /bower_components/
 /node_modules/
 /output/
+/output.el/
 package-lock.json
