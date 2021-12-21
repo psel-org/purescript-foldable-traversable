@@ -47,8 +47,14 @@ foldableLength :: forall f a. Foldable f => f a -> Int
 foldableLength = unwrap <<< foldMap (const (Additive 1))
 
 -- Ensure that a value is evaluated 'lazily' by treating it as an Eff action.
-deferEff :: forall a. (Unit -> a) -> Effect a
-deferEff = unsafeCoerce
+--
+-- NOTE: This only works with backends which can omit passing arugments when
+-- invoking function, like JS. Many other backend would raise a runtime error.
+--
+-- deferEff :: forall a. (Unit -> a) -> Effect a
+-- deferEff = unsafeCoerce
+
+foreign import deferEff :: forall a. (Unit -> a) -> Effect a
 
 main :: Effect Unit
 main = do
